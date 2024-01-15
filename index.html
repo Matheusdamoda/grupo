@@ -1,97 +1,287 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo aMathyzin</title>
-    <link rel="icon" href="https://media.discordapp.net/attachments/1119715186073411705/1134190559947407481/channels4_profile2.png" type="image/x-icon">
-     <meta property="og:title" content="Grupo aMathyzin">
-  <meta property="og:description" content="🤝Projetos de parceria e colaboração da comunidade🤝">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grupo aMathyzin - Início</title>
+  <link rel="icon" href="https://media.discordapp.net/attachments/1119715186073411705/1134190559947407481/channels4_profile2.png" type="image/x-icon">
+  <meta property="og:title" content="Grupo aMathyzin - Início">
+  <meta property="og:description" content="⚡ Informações sobre Aplicativos Web de Otimização ⚡">
   <meta property="og:image" content="https://media.discordapp.net/attachments/1119715186073411705/1134190559947407481/channels4_profile2.png">
   <meta property="og:url" content="https://amathyzin.tech/">
   <meta property="og:type" content="website">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background: linear-gradient(45deg, purple, black, #740AFB);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #currentImage {
+      border-radius: 12px;
+    }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    body {
+      user-select: none;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        h1 {
-            font-size: 5rem;
-            color: #fff;
-            animation: bounce 2s infinite;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #fff;
-        }
-        .button-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 20px;
-            color: #fff;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .icon {
-            width: 10%;
-            max-width: 150px;
-        }
+    img {
+      pointer-events: none;
+    }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
+    .no-context-menu,
+    .no-context-menu img {
+      pointer-events: none;
+    }
+
+    .no-context-menu {
+      cursor: default;
+    }
+
+    .info {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .info.expand {
+      max-height: 80vh;
+    }
+
+    .arrow-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .arrow-about {
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease-out;
+    }
+
+    .arrow-about.rotate {
+      transform: rotate(90deg);
+    }
+
+    .img-brilho {
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+      transition: box-shadow 0.3s ease-out;
+    }
+
+    .img-brilho:hover {
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.9);
+    }
+
+    .team-section {
+      text-align: center;
+    }
+
+    .team-member {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .team-member-item {
+      margin: 10px;
+    }
+
+    /* Oculta o texto em dispositivos móveis */
+    @media only screen and (max-width: 768px) {
+      .header-text {
+        display: none;
+      }
+
+      .team-member {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Verifica se é um dispositivo móvel
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        // Verifica se o usuário já clicou em "Continuar" na pagina_alternativa.html
+        const hasClickedContinue = sessionStorage.getItem('hasClickedContinue');
+
+        // Se o usuário já clicou, não realiza o redirecionamento
+        if (!hasClickedContinue) {
+          // Exibe a mensagem de alerta
+          if (confirm("Este site pode não ser exibido corretamente em dispositivos móveis. Deseja continuar?")) {
+            // Se o usuário clicar em OK, exibe o conteúdo do site
+            showSiteContent();
+          } else {
+            // Se o usuário clicar em Cancelar, redireciona para a pagina_alternativa.html
+            window.location.href = "pagina_alternativa.html";
+          }
+        } else {
+          // Se o usuário já clicou em "Continuar", exibe o conteúdo do site diretamente
+          showSiteContent();
         }
-    </style>
+      } else {
+        // Se não for um dispositivo móvel, exibe o conteúdo do site diretamente
+        showSiteContent();
+      }
+    });
+  </script>
 </head>
-<body>
-    <div class="container">
-        <img class="icon" src="https://media.discordapp.net/attachments/1119715186073411705/1134190559947407481/channels4_profile2.png" alt="Ícone">
-        <h1>Em desenvolvimento..</h1>
-        <p>Em breve novidades.....</p>
-        <div class="button-container">
-            <a class="button" href="https://amathyzin.tech/">Voltar para a página inicial</a>
+
+<body oncontextmenu="return false;">
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  <div class="navbar">
+    <div class="left">
+      <span class="logo">
+        <img class="icon" src="https://cdn.discordapp.com/attachments/841874572118327326/1125115918486355968/channels4_profile.jpg" alt="aMathyzin">
+        Grupo aMathyzin
+        <div class="switch-container">
+          <label class="switch">
+            <input type="checkbox" id="audio-checkbox">
+            <span class="slider"></span>
+          </label>
         </div>
+      </span>
     </div>
+    <div class="right">
+      <a href="https://www.youtube.com/@aMathyzin" target="_blank" class="icon-link">
+        <img class="icon" src="https://cdn.discordapp.com/attachments/1119715186073411705/1122872840614580344/youtube.png" alt="YouTube">
+      </a>
+      <a href="https://discord.gg/6EF7khuct3" target="_blank" class="icon-link">
+        <img class="icon" src="https://media.discordapp.net/attachments/1119715186073411705/1122872863704219710/discord.png" alt="Discord">
+      </a>
+    </div>
+    <div class="header-text">PROJETOS RECENTES</div>
+  </div>
+
+  <!-- Container para uma única imagem -->
+  <div class="image-container">
+    <button class="arrow arrow-left" onclick="changeImage(-1)">&#10094;</button>
+    <img id="currentImage" src="./slide/imagem1.png" alt="Imagem 1" class="no-context-menu img-brilho">
+    <button class="arrow arrow-right" onclick="changeImage(1)">&#10095;</button>
+  </div>
+
+  <div class="content">
+    <div class="arrow-container">
+      <h2>Sobre Nós</h2>
+      <span class="arrow-about" onclick="toggleInfo()">&#9658;</span>
+    </div>
+    <div class="info">
+      <p>Somos o maior grupo colaborativo de otimização, concentrando nossos esforços em qualidade, desempenho, segurança, originalidade e excelência.</p>
+      <p>Nos dedicamos ao desenvolvimento dos melhores softwares para aprimorar o desempenho de computadores, desde os mais simples até dispositivos High-End. Nosso foco principal é garantir a sua satisfação e preferência.</p>
+      <p>Atualmente, estamos concentrados na conclusão deste site. Esta versão é uma demonstração criada rapidamente para apresentar o Minimal Optimizer, desenvolvido por aMathyzin.</p>
+      <p>Agradecemos por escolher nossos serviços. Esperamos vê-lo novamente no futuro!</p>
+    </div>
+  </div>
+
+  <!-- Seção de Integrantes -->
+  <div class="team-section">
+    <h2 class="section-header">Nosso Time</h2>
+    <div class="team-member">
+      <div class="team-member-item">
+        <img src="./membros/membro1.jpg" alt="Membro 1" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@iGustt</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro2.jpg" alt="Membro 2" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@memphis1_</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro3.jpg" alt="Membro 3" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@aMathyzin</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro4.jpg" alt="Membro 4" class="member-image no-context-menu img-brilho">
+        <p class="member-name">Turbo Team</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro5.jpg" alt="Membro 5" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@h3cke5</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px;"></div>
+  <div class="copyright-bar">
+    © Copyright aMathyzin 2023. Todos os direitos reservados.
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    function toggleInfo() {
+      var info = document.querySelector('.info');
+      var arrow = document.querySelector('.arrow-about');
+
+      info.classList.toggle('expand');
+      arrow.classList.toggle('rotate');
+    }
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      let currentImageNumber = 1;
+
+      function changeImage(step) {
+        currentImageNumber += step;
+
+        if (currentImageNumber < 1) {
+          currentImageNumber = 2;
+        } else if (currentImageNumber > 2) {
+          currentImageNumber = 1;
+        }
+
+        $('#currentImage').css({
+          'transform': 'scale(0.8)',
+          'opacity': '0'
+        });
+
+        setTimeout(function () {
+          $('#currentImage').attr('src', `./slide/imagem${currentImageNumber}.png`);
+          $('#currentImage').css({
+            'transform': 'scale(1)',
+            'opacity': '1'
+          });
+        }, 500);
+      }
+
+      setInterval(function () {
+        changeImage(1);
+      }, 10000);
+
+      $('.arrow-left').on('click', function () {
+        changeImage(-1);
+      });
+
+      $('.arrow-right').on('click', function () {
+        changeImage(1);
+      });
+    });
+  </script>
+
+  <audio id="myaudio">
+    <source src="https://cdn.discordapp.com/attachments/1119715186073411705/1143370347228438678/2_Minute_Timer_Lofi_320_kbps.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('myaudio');
+    const audioCheckbox = document.getElementById('audio-checkbox');
+
+    audioCheckbox.addEventListener('change', () => {
+      if (audioCheckbox.checked) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        const loaderWrapper = document.querySelector(".loader-wrapper");
+        loaderWrapper.style.display = "none";
+      }, 2000);
+    });
+  </script>
 </body>
+
 </html>
