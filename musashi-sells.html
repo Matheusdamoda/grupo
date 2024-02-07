@@ -32,6 +32,16 @@
       color: purple;
       font-weight: bold;
     }
+
+    .content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Esconde a barra de rolagem no IE, Edge e Firefox */
+.content {
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
   </style>
 </head>
 <body>
@@ -63,7 +73,7 @@
       </a>
     </div>
   </div>
-  <div class="content" style="max-height: 600px; overflow: auto;">
+  <div class="content" style="max-height: 900px; overflow-y: scroll;">
     <div class="black-box">
       <h1>Termos de Serviço - Musashi Sell's</h1>
       <p>Bem-vindo(a) à Musashi Sell's! Ao utilizar nossos serviços, você concorda em cumprir os seguintes termos e condições. Por favor, leia-os atentamente.</p>
