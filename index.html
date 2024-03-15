@@ -13,161 +13,275 @@
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="styles.css">
   <style>
+    #currentImage {
+      border-radius: 12px;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      user-select: none;
     }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    img {
+      pointer-events: none;
     }
 
-    .sidebar {
-      background-color: #f2f2f2;
-      padding: 20px;
-      width: 250px;
+    .no-context-menu,
+    .no-context-menu img {
+      pointer-events: none;
     }
 
-    .main-content {
-      flex: 1;
-      padding: 20px;
+    .no-context-menu {
+      cursor: default;
     }
 
-    .logo {
+    .info {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .info.expand {
+      max-height: 80vh;
+    }
+
+    .arrow-container {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
     }
 
-    .logo img {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
+    .arrow-about {
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease-out;
     }
 
-    .logo h1 {
-      font-size: 24px;
-      margin: 0;
+    .arrow-about.rotate {
+      transform: rotate(90deg);
     }
 
-    .navigation {
-      margin-bottom: 20px;
+    .img-brilho {
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+      transition: box-shadow 0.3s ease-out;
     }
 
-    .navigation a {
-      display: block;
-      color: #333;
-      text-decoration: none;
-      padding: 10px 0;
+    .img-brilho:hover {
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.9);
     }
 
-    .navigation a:hover {
-      background-color: #ddd;
-    }
-
-    .content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .section-header {
+    .team-section {
       text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .info p {
-      margin-bottom: 10px;
     }
 
     .team-member {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .team-member-item {
-      text-align: center;
       margin: 10px;
     }
 
-    .member-image {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-    }
+    /* Oculta o texto em dispositivos móveis */
+    @media only screen and (max-width: 768px) {
+      .header-text {
+        display: none;
+      }
 
-    .member-name {
-      margin: 0;
-    }
-
-    .footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 10px 0;
+      .team-member {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Verifica se é um dispositivo móvel
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        // Verifica se o usuário já clicou em "Continuar" na pagina_alternativa.html
+        const hasClickedContinue = sessionStorage.getItem('hasClickedContinue');
+
+        // Se o usuário já clicou, não realiza o redirecionamento
+        if (!hasClickedContinue) {
+          // Exibe a mensagem de alerta
+          if (confirm("Este site pode não ser exibido corretamente em dispositivos móveis. Deseja continuar?")) {
+            // Se o usuário clicar em OK, exibe o conteúdo do site
+            showSiteContent();
+          } else {
+            // Se o usuário clicar em Cancelar, redireciona para a pagina_alternativa.html
+            window.location.href = "pagina_alternativa.html";
+          }
+        } else {
+          // Se o usuário já clicou em "Continuar", exibe o conteúdo do site diretamente
+          showSiteContent();
+        }
+      } else {
+        // Se não for um dispositivo móvel, exibe o conteúdo do site diretamente
+        showSiteContent();
+      }
+    });
+  </script>
 </head>
 
-<body>
-  <div class="container">
-    <div class="sidebar">
-      <div class="logo">
-        <img src="https://amathyzin.tech/icon.png" alt="aMathyzin">
-        <h1>Grupo aMathyzin</h1>
-      </div>
-      <div class="navigation">
-        <a href="#about">Sobre Nós</a>
-        <a href="#team">Nosso Time</a>
-      </div>
+<body oncontextmenu="return false;">
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  <div class="navbar">
+    <div class="left">
+      <span class="logo">
+        <img class="icon" src="https://amathyzin.tech/icon.png" alt="aMathyzin">
+        Grupo aMathyzin
+        <div class="switch-container">
+          <label class="switch">
+            <input type="checkbox" id="audio-checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </span>
     </div>
-    <div class="main-content">
-      <div id="about" class="content">
-        <h2 class="section-header">Sobre Nós</h2>
-        <div class="info">
-          <p>Somos o maior grupo colaborativo de otimização, concentrando nossos esforços em qualidade, desempenho, segurança, originalidade e excelência.</p>
-          <p>Nos dedicamos ao desenvolvimento dos melhores softwares para aprimorar o desempenho de computadores, desde os mais simples até dispositivos High-End. Nosso foco principal é garantir a sua satisfação e preferência.</p>
-          <p>Atualmente, estamos concentrados na conclusão deste site. Esta versão é uma demonstração criada rapidamente para apresentar o Minimal Optimizer, desenvolvido por aMathyzin.</p>
-          <p>Agradecemos por escolher nossos serviços. Esperamos vê-lo novamente no futuro!</p>
-        </div>
+    <div class="right">
+      <a href="https://www.youtube.com/@aMathyzin" target="_blank" class="icon-link">
+        <img class="icon" src="https://amathyzin.tech/youtube.png" alt="YouTube">
+      </a>
+      <a href="https://amathyzin.tech/discord" target="_blank" class="icon-link">
+        <img class="icon" src="https://amathyzin.tech/discord.png" alt="Discord">
+      </a>
+    </div>
+    <div class="header-text">PROJETOS RECENTES</div>
+  </div>
+
+  <!-- Container para uma única imagem -->
+  <div class="image-container">
+    <button class="arrow arrow-left" onclick="changeImage(-1)">&#10094;</button>
+    <img id="currentImage" src="./slide/imagem1.png" alt="Imagem 1" class="no-context-menu img-brilho">
+    <button class="arrow arrow-right" onclick="changeImage(1)">&#10095;</button>
+  </div>
+
+  <div class="content">
+    <div class="arrow-container">
+      <h2>Sobre Nós</h2>
+      <span class="arrow-about" onclick="toggleInfo()">&#9658;</span>
+    </div>
+    <div class="info">
+      <p>Somos o maior grupo colaborativo de otimização, concentrando nossos esforços em qualidade, desempenho, segurança, originalidade e excelência.</p>
+      <p>Nos dedicamos ao desenvolvimento dos melhores softwares para aprimorar o desempenho de computadores, desde os mais simples até dispositivos High-End. Nosso foco principal é garantir a sua satisfação e preferência.</p>
+      <p>Atualmente, estamos concentrados na conclusão deste site. Esta versão é uma demonstração criada rapidamente para apresentar o Minimal Optimizer, desenvolvido por aMathyzin.</p>
+      <p>Agradecemos por escolher nossos serviços. Esperamos vê-lo novamente no futuro!</p>
+    </div>
+  </div>
+
+  <!-- Seção de Integrantes -->
+  <div class="team-section">
+    <h2 class="section-header">Nosso Time</h2>
+    <div class="team-member">
+      <div class="team-member-item">
+        <img src="./membros/membro1.jpg" alt="Membro 1" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@iGustt</p>
       </div>
-      <div id="team" class="content">
-        <h2 class="section-header">Nosso Time</h2>
-        <div class="team-member">
-          <div class="team-member-item">
-            <img src="./membros/membro1.jpg" alt="Membro 1" class="member-image">
-            <p class="member-name">@iGustt</p>
-          </div>
-          <div class="team-member-item">
-            <img src="./membros/membro2.jpg" alt="Membro 2" class="member-image">
-            <p class="member-name">@memphis1_</p>
-          </div>
-          <div class="team-member-item">
-            <img src="./membros/membro3.jpg" alt="Membro 3" class="member-image">
-            <p class="member-name">@aMathyzin</p>
-          </div>
-          <div class="team-member-item">
-            <img src="./membros/membro4.jpg" alt="Membro 4" class="member-image">
-            <p class="member-name">Turbo Team</p>
-          </div>
-          <div class="team-member-item">
-            <img src="./membros/membro5.jpg" alt="Membro 5" class="member-image">
-            <p class="member-name">@h3cke5</p>
-          </div>
-        </div>
+      <div class="team-member-item">
+        <img src="./membros/membro2.jpg" alt="Membro 2" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@memphis1_</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro3.jpg" alt="Membro 3" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@aMathyzin</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro4.jpg" alt="Membro 4" class="member-image no-context-menu img-brilho">
+        <p class="member-name">Turbo Team</p>
+      </div>
+      <div class="team-member-item">
+        <img src="./membros/membro5.jpg" alt="Membro 5" class="member-image no-context-menu img-brilho">
+        <p class="member-name">@h3cke5</p>
       </div>
     </div>
   </div>
-  <div class="footer">
+
+  <div style="margin-top: 30px;"></div>
+  <div class="copyright-bar">
     © Copyright aMathyzin 2024. Todos os direitos reservados.
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    function toggleInfo() {
+      var info = document.querySelector('.info');
+      var arrow = document.querySelector('.arrow-about');
+
+      info.classList.toggle('expand');
+      arrow.classList.toggle('rotate');
+    }
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      let currentImageNumber = 1;
+
+      function changeImage(step) {
+        currentImageNumber += step;
+
+        if (currentImageNumber < 1) {
+          currentImageNumber = 2;
+        } else if (currentImageNumber > 2) {
+          currentImageNumber = 1;
+        }
+
+        $('#currentImage').css({
+          'transform': 'scale(0.8)',
+          'opacity': '0'
+        });
+
+        setTimeout(function () {
+          $('#currentImage').attr('src', `./slide/imagem${currentImageNumber}.png`);
+          $('#currentImage').css({
+            'transform': 'scale(1)',
+            'opacity': '1'
+          });
+        }, 500);
+      }
+
+      setInterval(function () {
+        changeImage(1);
+      }, 10000);
+
+      $('.arrow-left').on('click', function () {
+        changeImage(-1);
+      });
+
+      $('.arrow-right').on('click', function () {
+        changeImage(1);
+      });
+    });
+  </script>
+
+  <audio id="myaudio">
+    <source src="https://amathyzin.tech/lofi.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('myaudio');
+    const audioCheckbox = document.getElementById('audio-checkbox');
+
+    audioCheckbox.addEventListener('change', () => {
+      if (audioCheckbox.checked) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        const loaderWrapper = document.querySelector(".loader-wrapper");
+        loaderWrapper.style.display = "none";
+      }, 2000);
+    });
+  </script>
 </body>
 
 </html>
